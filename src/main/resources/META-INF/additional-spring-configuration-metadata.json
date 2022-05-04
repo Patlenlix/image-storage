@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "spring.cloud.consul.config.enabled",
+      "type": "java.lang.String",
+      "description": "Description for spring.cloud.consul.config.enabled."
+  }
+] }
