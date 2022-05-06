@@ -1,9 +1,8 @@
 package se.iths.imagestorage.controller;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import se.iths.imagestorage.service.ImageService;
 
@@ -21,4 +20,8 @@ public class ImageController {
         return service.uploadImage(multipartFile);
     }
 
+    @GetMapping(value = "/{id}", produces = MediaType.ALL_VALUE)
+    public FileSystemResource downloadImage(@PathVariable Long id){
+        return service.downloadImage(id);
+    }
 }
