@@ -1,9 +1,12 @@
 package se.iths.imagestorage.service;
 
 
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 import se.iths.imagestorage.entity.Image;
 import se.iths.imagestorage.repository.FileSystemRepository;
 import se.iths.imagestorage.repository.ImageDbRepository;
@@ -30,6 +33,11 @@ public class ImageService {
         return imageDbRepository.save(image).getId();
     }
 
+    public FileSystemResource downloadImage(Long id){
+        Image image = imageDbRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        return fileSystemRepository.findInFileSystem(image.getPath());
+    }
     private String setImagePath(){
         String folder = StringUtils.cleanPath(Paths.get(".").toAbsolutePath().toString());
         return folder + "/src/main/resource/static/images/";
