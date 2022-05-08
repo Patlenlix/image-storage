@@ -40,7 +40,7 @@ public class ImageService {
     }
     private String setImagePath(){
         String folder = StringUtils.cleanPath(Paths.get(".").toAbsolutePath().toString());
-        return folder + "/src/main/resource/static/images/";
+        return folder + "/src/main/resources/static/images/";
     }
 
 }
