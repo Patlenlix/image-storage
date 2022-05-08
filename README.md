@@ -7,7 +7,10 @@
   
   **Image storage** is a Spring Boot application. 
   
-  
-  
+
   ## Endpoints
 
+| HTTP-verb | URL               | BODY                                                                      | PRODUCES     | HEADER                             | Info                                   |
+|-----------|-------------------|---------------------------------------------------------------------------|--------------|------------------------------------|----------------------------------------|
+| POST      | /images           | A MultipartForm with the name "images" <br/>and the value as a .jpeg file |              | Content-Type: multipart/form-data  | Uploads an image                       |
+| GET       | /images/{imageId} |                                                                           | A .jpeg file |                                    | Downloads an image with id = {imageId} |
