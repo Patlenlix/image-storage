@@ -33,7 +33,7 @@ public class FileSystemRepository {
         try{
             return new FileSystemResource(Paths.get(path));
         }catch (InvalidPathException e){
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
     }
 
