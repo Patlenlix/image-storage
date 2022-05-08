@@ -25,7 +25,7 @@ public class FileSystemRepository {
             byte[] bytes = file.getBytes();
             Files.write(path, bytes);
         } catch (IOException e) {
-            log.error("Error while creating a directory. Make sure that the file name doesn't exist. Error message: "  + e);
+            log.error("Error: {0}");
         }
     }
 
