@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import se.iths.imagestorage.service.ImageService;
 
 @RestController
-@RequestMapping("/img")
+@RequestMapping("/images")
 public class ImageController {
     private final ImageService service;
 
