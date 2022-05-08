@@ -12,5 +12,5 @@
 
 | HTTP-verb | URL               | BODY                                                                      | PRODUCES     | HEADER                             | Info                                   |
 |-----------|-------------------|---------------------------------------------------------------------------|--------------|------------------------------------|----------------------------------------|
-| POST      | /images           | A MultipartFile with the name "multipartFile" <br/>and the mediatype set to any |              | Content-Type: multipart/form-data  | Uploads an image                       |
+| POST      | /images           | A MultipartFile with the name "multipartFile" and the <br/>mediatype set to any |              | Content-Type: multipart/form-data  | Uploads an image                       |
 | GET       | /images/{imageId} |                                                                           | A .jpeg file |                                    | Downloads an image with id = {imageId} |
