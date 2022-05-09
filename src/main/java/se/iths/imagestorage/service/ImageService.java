@@ -18,6 +18,7 @@ public class ImageService {
 
     private final ImageDbRepository imageDbRepository;
     private final FileSystemRepository fileSystemRepository;
+    private static final int TAGET_IMAGE_SIZE = 200;
 
     public ImageService(ImageDbRepository imageDbRepository, FileSystemRepository fileSystemRepository) {
         this.imageDbRepository = imageDbRepository;
@@ -29,7 +30,7 @@ public class ImageService {
         image.setName(imageAsFile.getOriginalFilename());
 
         image.setPath(setImagePath() + imageAsFile.getOriginalFilename());
-        fileSystemRepository.uploadImage(imageAsFile,image);
+        fileSystemRepository.uploadImage(imageAsFile,image, TAGET_IMAGE_SIZE);
         return imageDbRepository.save(image).getId();
     }
 

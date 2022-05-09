@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
+import se.iths.imagestorage.ImageManipulation;
 import se.iths.imagestorage.entity.Image;
 
 import java.io.IOException;
@@ -17,22 +18,22 @@ import java.nio.file.Paths;
 public class FileSystemRepository {
     private final Logger log = LoggerFactory.getLogger(FileSystemRepository.class);
 
-    public void uploadImage(MultipartFile file, Image image){
+    public void uploadImage(MultipartFile file, Image image, int targetSize) {
         Path path = Paths.get(image.getPath());
 
         try {
             Files.createDirectories(path.getParent());
             byte[] bytes = file.getBytes();
-            Files.write(path, bytes);
+            Files.write(path, ImageManipulation.resize(bytes, targetSize, file.getContentType()));
         } catch (IOException e) {
             log.error("Error: {0}");
         }
     }
 
-    public FileSystemResource findInFileSystem(String path){
-        try{
+    public FileSystemResource findInFileSystem(String path) {
+        try {
             return new FileSystemResource(Paths.get(path));
-        }catch (InvalidPathException e){
+        } catch (InvalidPathException e) {
             throw new RuntimeException(e);
         }
     }
