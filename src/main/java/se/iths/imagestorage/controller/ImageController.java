@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import se.iths.imagestorage.service.ImageService;
 
+import java.io.IOException;
 import java.net.URI;
 
 @RestController
@@ -21,13 +22,17 @@ public class ImageController {
 
     @PostMapping
     public ResponseEntity<String> uploadImage(@RequestParam MultipartFile multipartFile) {
-        Long createdImageId = service.uploadImage(multipartFile);
-        URI uri = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(createdImageId)
-                .toUri();
-        return ResponseEntity.created(uri).build();
+        try {
+            Long createdImageId = service.uploadImage(multipartFile);
+            URI uri = ServletUriComponentsBuilder
+                    .fromCurrentRequest()
+                    .path("/{id}")
+                    .buildAndExpand(createdImageId)
+                    .toUri();
+            return ResponseEntity.created(uri).build();
+        } catch (IOException e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.ALL_VALUE)

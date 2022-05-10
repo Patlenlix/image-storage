@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
+import se.iths.imagestorage.ImageManipulation;
 import se.iths.imagestorage.entity.Image;
 
 import java.io.IOException;
@@ -20,22 +21,18 @@ public class FileSystemRepository {
         this.log = log;
     }
 
-    public void uploadImage(MultipartFile file, Image image){
+    public void uploadImage(MultipartFile file, Image image, int targetSize) throws IOException {
         Path path = Paths.get(image.getPath());
 
-        try {
-            log.info("Checking and creating directory...");
-            Files.createDirectories(path.getParent());
-            byte[] bytes = file.getBytes();
-            log.info("Attempting to upload file...");
-            Files.write(path, bytes);
-            log.info("Image successfully uploaded to: {}", path);
-        } catch (IOException e) {
-            log.error("Error: {1}", e);
-        }
+        log.info("Checking and creating directory...");
+        Files.createDirectories(path.getParent());
+        byte[] bytes = file.getBytes();
+        log.info("Attempting to upload file...");
+        Files.write(path, ImageManipulation.resize(bytes, targetSize, file.getContentType()));
+        log.info("Image successfully uploaded to: {}", path);
     }
 
-    public FileSystemResource findInFileSystem(String path){
+    public FileSystemResource findInFileSystem(String path) {
         try {
             log.info("Attempting to download file at: {}", path);
             return new FileSystemResource(Paths.get(path));

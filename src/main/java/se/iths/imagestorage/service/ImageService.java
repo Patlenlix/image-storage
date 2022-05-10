@@ -12,6 +12,7 @@ import se.iths.imagestorage.entity.Image;
 import se.iths.imagestorage.repository.FileSystemRepository;
 import se.iths.imagestorage.repository.ImageDbRepository;
 
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 
@@ -20,6 +21,7 @@ public class ImageService {
 
     private final ImageDbRepository imageDbRepository;
     private final FileSystemRepository fileSystemRepository;
+    private static final int TAGET_IMAGE_SIZE = 200;
     private final Logger log;
 
     public ImageService(ImageDbRepository imageDbRepository, FileSystemRepository fileSystemRepository, Logger log) {
@@ -28,7 +30,7 @@ public class ImageService {
         this.log = log;
     }
 
-    public Long uploadImage(MultipartFile imageAsFile){
+    public Long uploadImage(MultipartFile imageAsFile) throws IOException {
         log.info("File upload started at: {}", LocalDateTime.now());
 
         Image image = new Image();
@@ -43,7 +45,7 @@ public class ImageService {
         image.setPath(imagePath);
         log.info("Image path set to: {}", imagePath);
 
-        fileSystemRepository.uploadImage(imageAsFile,image);
+        fileSystemRepository.uploadImage(imageAsFile,image, TAGET_IMAGE_SIZE);
         return imageDbRepository.save(image).getId();
     }
 
