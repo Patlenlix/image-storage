@@ -2,9 +2,14 @@ package se.iths.imagestorage.controller;
 
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import se.iths.imagestorage.service.ImageService;
+
+import java.io.IOException;
+import java.net.URI;
 
 @RestController
 @RequestMapping("/images")
@@ -16,12 +21,22 @@ public class ImageController {
     }
 
     @PostMapping
-    public Long uploadImage(@RequestParam MultipartFile multipartFile){
-        return service.uploadImage(multipartFile);
+    public ResponseEntity<String> uploadImage(@RequestParam MultipartFile multipartFile) {
+        try {
+            Long createdImageId = service.uploadImage(multipartFile);
+            URI uri = ServletUriComponentsBuilder
+                    .fromCurrentRequest()
+                    .path("/{id}")
+                    .buildAndExpand(createdImageId)
+                    .toUri();
+            return ResponseEntity.created(uri).build();
+        } catch (IOException e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.ALL_VALUE)
-    public FileSystemResource downloadImage(@PathVariable Long id){
+    public FileSystemResource downloadImage(@PathVariable Long id) {
         return service.downloadImage(id);
     }
 }
