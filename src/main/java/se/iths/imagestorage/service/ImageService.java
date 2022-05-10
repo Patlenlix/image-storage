@@ -12,6 +12,7 @@ import se.iths.imagestorage.entity.Image;
 import se.iths.imagestorage.repository.FileSystemRepository;
 import se.iths.imagestorage.repository.ImageDbRepository;
 
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 
@@ -29,7 +30,7 @@ public class ImageService {
         this.log = log;
     }
 
-    public Long uploadImage(MultipartFile imageAsFile){
+    public Long uploadImage(MultipartFile imageAsFile) throws IOException {
         log.info("File upload started at: {}", LocalDateTime.now());
 
         Image image = new Image();
