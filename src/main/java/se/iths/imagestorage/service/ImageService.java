@@ -45,7 +45,7 @@ public class ImageService {
         image.setPath(imagePath);
         log.info("Image path set to: {}", imagePath);
 
-        fileSystemRepository.uploadImage(imageAsFile,image, TAGET_IMAGE_SIZE);
+        fileSystemRepository.uploadImage(imageAsFile, image, TAGET_IMAGE_SIZE);
         return imageDbRepository.save(image).getId();
     }
 
@@ -63,6 +63,7 @@ public class ImageService {
 
         return fileSystemRepository.findInFileSystem(image.getPath());
     }
+
     private String setImagePath(){
         String folder = StringUtils.cleanPath(Paths.get(".").toAbsolutePath().toString());
         return folder + "/src/main/resources/static/images/";
