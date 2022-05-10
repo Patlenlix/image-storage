@@ -33,7 +33,7 @@ public class ImageManipulation {
 
     public static byte[] convertToByteArray(BufferedImage image, String format) throws IOException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        ImageIO.write(image, format, outputStream);
+        ImageIO.write(image, "jpeg", outputStream);
         return outputStream.toByteArray();
     }
 }
