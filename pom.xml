@@ -57,6 +57,7 @@
 
 
     <build>
+        <finalName>image-storage</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
