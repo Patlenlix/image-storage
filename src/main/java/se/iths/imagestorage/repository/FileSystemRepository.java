@@ -5,7 +5,6 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 import se.iths.imagestorage.ImageManipulation;
-import se.iths.imagestorage.entity.Image;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -21,9 +20,7 @@ public class FileSystemRepository {
         this.log = log;
     }
 
-    public void uploadImage(MultipartFile file, Image image, int targetSize) throws IOException {
-        Path path = Paths.get(image.getPath());
-
+    public void uploadImage(MultipartFile file, Path path, int targetSize) throws IOException {
         log.info("Checking and creating directory...");
         Files.createDirectories(path.getParent());
         byte[] bytes = file.getBytes();
