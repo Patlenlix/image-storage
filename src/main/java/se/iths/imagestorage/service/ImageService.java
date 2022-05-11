@@ -33,23 +33,21 @@ public class ImageService {
 
     public Long uploadImage(MultipartFile imageAsFile) throws IOException {
         log.info("File upload started at: {}", LocalDateTime.now());
-
-        Image image = new Image();
-
-        log.info("Setting Image name...");
-        String imageName = imageAsFile.getOriginalFilename();
-        image.setName(imageName);
-        log.info("Image name set to: {}", imageName);
-
-        log.info("Setting Image path...");
         String imagePath = setImagePath() + imageAsFile.getOriginalFilename();
-        image.setPath(imagePath);
-        log.info("Image path set to: {}", imagePath);
+        Path path = Paths.get(imagePath);
 
-        Path path = Paths.get(image.getPath());
-        fileSystemRepository.uploadImage(imageAsFile, path, TAGET_IMAGE_SIZE);
-
-        return imageDbRepository.save(image).getId();
+        log.info("Try to upload file... ");
+        try {
+            fileSystemRepository.uploadImage(imageAsFile, path, TAGET_IMAGE_SIZE);
+            log.info("Upload was successfully completed");
+            log.info("Saving information about image...");
+            Long imageId = saveImageInformation(imageAsFile, imagePath);
+            log.info("Image saved with id: {}", imageId);
+            return imageId;
+        } catch (IOException e) {
+            log.info("Upload was NOT successfully completed");
+            throw new IOException();
+        }
     }
 
     public FileSystemResource downloadImage(Long id){
@@ -67,9 +65,16 @@ public class ImageService {
         return fileSystemRepository.findInFileSystem(image.getPath());
     }
 
-    private String setImagePath(){
+    private String setImagePath() {
         String folder = StringUtils.cleanPath(Paths.get(".").toAbsolutePath().toString());
         return folder + "/src/main/resources/static/images/";
     }
 
+    private Long saveImageInformation(MultipartFile imageAsFile, String imagePath) {
+        Image image = new Image();
+        String imageName = imageAsFile.getOriginalFilename();
+        image.setName(imageName);
+        image.setPath(imagePath);
+        return imageDbRepository.save(image).getId();
+    }
 }
