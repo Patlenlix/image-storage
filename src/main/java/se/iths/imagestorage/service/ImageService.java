@@ -39,7 +39,6 @@ public class ImageService {
         log.info("Try to upload file... ");
         try {
             fileSystemRepository.uploadImage(imageAsFile, path, TAGET_IMAGE_SIZE);
-            log.info("Upload was successfully completed");
             log.info("Saving information about image...");
             Long imageId = saveImageInformation(imageAsFile, imagePath);
             log.info("Image saved with id: {}", imageId);
