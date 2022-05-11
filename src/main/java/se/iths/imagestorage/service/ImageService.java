@@ -13,6 +13,7 @@ import se.iths.imagestorage.repository.FileSystemRepository;
 import se.iths.imagestorage.repository.ImageDbRepository;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 
@@ -45,7 +46,9 @@ public class ImageService {
         image.setPath(imagePath);
         log.info("Image path set to: {}", imagePath);
 
-        fileSystemRepository.uploadImage(imageAsFile, image, TAGET_IMAGE_SIZE);
+        Path path = Paths.get(image.getPath());
+        fileSystemRepository.uploadImage(imageAsFile, path, TAGET_IMAGE_SIZE);
+
         return imageDbRepository.save(image).getId();
     }
 
