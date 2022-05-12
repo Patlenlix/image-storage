@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Service
 public class ImageService {
@@ -33,7 +34,7 @@ public class ImageService {
 
     public Long uploadImage(MultipartFile imageAsFile) throws IOException {
         log.info("File upload started at: {}", LocalDateTime.now());
-        String imagePath = setImagePath() + imageAsFile.getOriginalFilename();
+        String imagePath = setImagePath() + new Date().getTime() + "-" + imageAsFile.getOriginalFilename();
         Path path = Paths.get(imagePath);
 
         log.info("Try to upload file... ");
