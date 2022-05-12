@@ -31,4 +31,4 @@ This service will be used for the final project of our Webservices course at IT-
 | HTTP-verb | URL               | BODY                                                                      | PRODUCES     | HEADER                             | Info                                   |
 |-----------|-------------------|---------------------------------------------------------------------------|--------------|------------------------------------|----------------------------------------|
 | POST      | /images           | A MultipartFile with the name "multipartFile" and the mediatype set to any |              | Content-Type: multipart/form-data</br> (URI: location of client/gateway)| Uploads an image                       |
-| GET       | /images/{imageId} |                                                                           | A .jpeg file |                                    | Downloads an image with id = {imageId} |
+| GET       | /images/{imageId} |                                                                           | An image file |                                    | Downloads an image with id = {imageId} |
