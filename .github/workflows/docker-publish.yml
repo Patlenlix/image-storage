@@ -1,8 +1,8 @@
 name: Package & Publish a Docker Image
 
-on: [workflow_dispatch]
-#  release:
-#    types: [ published ]
+on:
+  release:
+    types: [ published ]
 
 env:
   REGISTRY: ghcr.io
