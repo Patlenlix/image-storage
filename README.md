@@ -23,8 +23,7 @@ This service will be used for the final project of our Webservices course at IT-
    `docker run -d --name database -e MYSQL_ROOT_PASSWORD=root -e 'MYSQL_ROOT_HOST=%' -e MYSQL_DATABASE=images -e MYSQL_USER=user -e MYSQL_PASSWORD=password -p 3306:3306 --network=net -v=dataVol mysql:latest
    `
 5. Start application
-   1. build docker image via the dockerfil, name it "app"
-   run: `docker run -d --name myapp -p 8080:8080 --network=net -v=fileVol -e MYSQL_HOST=database -e CONSUL_HOST=consul app:latest`
+   `docker run -d --name myapp -p 8080:8080 --network=net -v=fileVol -e MYSQL_HOST=database -e CONSUL_HOST=consul ghcr.io/patlenlix/image-storage:latest`
 
 ## Endpoints
 
