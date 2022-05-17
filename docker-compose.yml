@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+
+  image-service:
+    build: .
+    container_name: image-service
+    ports:
+      - "8080:8080"
+    volumes:
+      - image:/src
+    environment:
+      - MYSQL_HOST=mysql
+      - CONSUL_HOST=consul
+    depends_on:
+      - mysql
+      - consul
+
+  auth:
+    image: auth-service:latest
+    container_name: auth-service
+    restart: always
+    environment:
+      - MYSQL_HOST=mysql
+      - CONSUL_HOST=consul
+      - RABBIT_HOST=rabbitmq
+      - ENV_DIR=./
+    depends_on:
+      - mysql
+      - consul
+      - rabbitmq
+
+  mysql:
+    image: mysql:latest
+    cap_add:
+      - SYS_NICE
+    container_name: mysql
+    restart: always
+    volumes:
+      - db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+      - MYSQL_DATABASE=mysql
+
+  consul:
+    image: consul:latest
+    container_name: consul
+    restart: always
+    ports:
+      - "8500:8500"
+      - "8600:8600/tcp"
+      - "8600:8600/udp"
+    command:
+      - "agent -server -ui -node=server-1 -bootstrap-expect=1 -client='0.0.0.0'"
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+
+volumes:
+  db:
+    driver: local
+
+  image:
+    driver: local
+
