@@ -6,8 +6,7 @@
 
 ## Description
 
-Image upload, storage and download microservice using Spring boot, MySQL and local storage. <br/>
-This service will be used for the final project of our Webservices course at IT-Högskolan, Gothenburg.
+Image upload, storage and download microservice using Spring boot, MySQL and local storage. This service will be used for the final project of our Webservices course at IT-Högskolan, Gothenburg.
 
 ## Deployment
 
@@ -52,7 +51,7 @@ server:
 5. Start database:</br>
    `docker run -d --name image-database -e MYSQL_ROOT_PASSWORD=root -e 'MYSQL_ROOT_HOST=%' -e MYSQL_DATABASE=images -e MYSQL_USER=user -e MYSQL_PASSWORD=password -p 3306:3306 --network=net -v=db-storage mysql:latest`
 6. Start application:</br>
-   `docker run -d --name image-service -p 8080:8080 --network=net -v=file-storage ghcr.io/patlenlix/image-service:latest`
+   `docker run -d --name image-service -p 8080:8080 --network=net -v=file-storage ghcr.io/patlenlix/image-storage:latest`
 
 ## Endpoints
 
