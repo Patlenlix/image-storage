@@ -12,18 +12,18 @@ This service will be used for the final project of our Webservices course at IT-
 ## Deployment
 
 1. Create network:
-   `docker network create net`
+   `docker network create image-net`
 2. Create volumes:
-   `docker volume create dataVol`
-   `docker volume create fileVol`
+   `docker volume create db-storage`
+   `docker volume create file-storage`
 3. Start consul:
-   `docker run -d -p 8500:8500 -p 8600:8600/udp --name=consul --network=net consul agent -server -ui -node=server-1 -bootstrap-expect=1 -client='0.0.0.0'
+   `docker run -d -p 8500:8500 -p 8600:8600/udp --name=consul --network=image-net consul agent -server -ui -node=server-1 -bootstrap-expect=1 -client='0.0.0.0'
    `
 4. Start database:
-   `docker run -d --name database -e MYSQL_ROOT_PASSWORD=root -e 'MYSQL_ROOT_HOST=%' -e MYSQL_DATABASE=images -e MYSQL_USER=user -e MYSQL_PASSWORD=password -p 3306:3306 --network=net -v=dataVol mysql:latest
+   `docker run -d --name database -e MYSQL_ROOT_PASSWORD=root -e 'MYSQL_ROOT_HOST=%' -e MYSQL_DATABASE=images -e MYSQL_USER=user -e MYSQL_PASSWORD=password -p 3306:3306 --network=image-net -v=db-storage mysql:latest
    `
 5. Start application
-   `docker run -d --name myapp -p 8080:8080 --network=net -v=fileVol -e MYSQL_HOST=database -e CONSUL_HOST=consul ghcr.io/patlenlix/image-storage:latest`
+   `docker run -d --name image-service -p 8080:8080 --network=image-net -v=file-storage -e MYSQL_HOST=database -e CONSUL_HOST=consul ghcr.io/patlenlix/image-storage:latest`
 
 ## Endpoints
 
